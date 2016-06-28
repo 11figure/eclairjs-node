@@ -2,6 +2,8 @@ EclairJS Node
 ===================
 EclairJS Node provides Node.js language bindings for [Apache Spark](https://spark.apache.org).
 
+Learn more about the larger [EclairJS project](http://www.eclairjs.org).
+
 ## Installation
 
 ```
@@ -10,9 +12,11 @@ $ npm install eclairjs
 
 EclairJS Node requires Node 0.12 or higher and also requires a running instance of [EclairJS Nashorn](https://github.com/EclairJS/eclairjs-nashorn/).
 
-Supported Spark versions can be found in the [Version](#version) section below.
+Supported Spark versions can be found in the [Versions](#version) section below.
 
 ## Example
+EclairJS Node's api mirrors the Spark api.  Here is the classic word count example:
+
 ```node
 var eclairjs = require('eclairjs');
 
@@ -24,9 +28,9 @@ var words = textFile.flatMap(function(sentence) {
   return sentence.split(" ");
 });
 
-var wordsWithCount = words.mapToPair(function(word, Tuple) {
-  return new Tuple(word, 1);
-}, [eclairjs.Tuple]);
+var wordsWithCount = words.mapToPair(function(word, Tuple2) {
+  return new Tuple2(word, 1);
+}, [eclairjs.Tuple2]);
 
 var reducedWordsWithCount = wordsWithCount.reduceByKey(function(value1, value2) {
   return value1 + value2;
@@ -56,7 +60,7 @@ export JUPYTER_PORT=8888
 Now you can run the Word count example:
 
 ```
-node --harmony examples/rddtop10.js
+node --harmony examples/rddtop10.js ./dream.txt
 ```
 
 Please see [Using-the-Docker-Container](https://github.com/EclairJS/eclairjs-node/wikis/Using-the-Docker-Container) for more about the Docker container.
